@@ -23,8 +23,8 @@ module.exports = {
 // @author       maple3142
 // @match        https://mailbox.gamer.com.tw/send.php*
 // @match        https://mailbox.gamer.com.tw/reply.php*
-// @require      https://unpkg.com/vue
-// @require      https://unpkg.com/vuex
+// @require      https://unpkg.com/vue/dist/vue.runtime.min.js
+// @require      https://unpkg.com/vuex/dist/vuex.min.js
 // @require      https://unpkg.com/vuejs-storage
 // @grant        none
 // ==/UserScript==	
