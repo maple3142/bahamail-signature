@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         巴哈姆特站內信簽名檔
 // @namespace    https://blog.maple3142.net/
-// @version      0.3
+// @version      0.4
 // @description  幫巴哈姆特站內信的站內信加上簽名檔功能
 // @author       maple3142
 // @match        https://mailbox.gamer.com.tw/send.php*
@@ -114,7 +114,7 @@ var store = new Vuex__default.Store({
   if (typeof document !== 'undefined') {
     var head = document.head || document.getElementsByTagName('head')[0],
         style = document.createElement('style'),
-        css = " .fw[data-v-125f8210]{ width: 100%; } ";
+        css = " .fw[data-v-125f8210] { width: 100%; } ";
     style.type = 'text/css';
 
     if (style.styleSheet) {
@@ -136,8 +136,8 @@ var Signature$1 = {
     var _c = _vm._self._c || _h;
 
     return _c('div', {
-      staticClass: "fw"
-    }, [_c('h6', [_vm._v(_vm._s(_vm.signature.name) + " :")]), _vm._v(" "), _c('textarea', {
+      staticClass: "fw BH-rbox"
+    }, [_c('h5', [_vm._v(_vm._s(_vm.signature.name))]), _vm._v(" "), _c('textarea', {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -165,7 +165,9 @@ var Signature$1 = {
       }
     }), _vm._v(" "), _c('div', [_c('button', {
       on: {
-        "click": _vm.apply
+        "click": function click($event) {
+          _vm.apply(_vm.signature.content);
+        }
       }
     }, [_vm._v("插入簽名檔")]), _vm._v(" "), _c('button', {
       on: {
@@ -173,9 +175,7 @@ var Signature$1 = {
       }
     }, [_vm._v("重新命名")]), _vm._v(" "), _c('button', {
       on: {
-        "click": function click($event) {
-          _vm.del(_vm.signature);
-        }
+        "click": _vm.del
       }
     }, [_vm._v("刪除")])])]);
   },
@@ -192,16 +192,16 @@ var Signature$1 = {
       text: this.signature.content
     };
   },
-  methods: _objectSpread({
+  methods: {
     edit: function edit(content) {
       this.$store.commit('edit', _objectSpread({}, this.signature, {
         content: content
       }));
     },
-    apply: function apply() {
+    apply: function apply(text) {
       var $tx = $('textarea[name=content]');
       var val = $tx.val();
-      $tx.val(val + this.signature.content);
+      $tx.val(val + text);
     },
     rename: function rename() {
       var name = prompt("\u628A\u7C3D\u540D\u6A94 \"".concat(this.signature.name, "\" \u6539\u6210?"));
@@ -209,15 +209,19 @@ var Signature$1 = {
       this.$store.commit('rename', _objectSpread({}, this.signature, {
         name: name
       }));
+    },
+    del: function del() {
+      var result = confirm("\u78BA\u8A8D\u522A\u9664\u7C3D\u540D\u6A94 \"".concat(this.signature.name, "\"?"));
+      if (result) this.$store.commit('del', this.signature);
     }
-  }, Vuex.mapMutations(['del']))
+  }
 };
 
 (function () {
   if (typeof document !== 'undefined') {
     var head = document.head || document.getElementsByTagName('head')[0],
         style = document.createElement('style'),
-        css = "";
+        css = " .bms-btn-wrap[data-v-38cab9c1]{ margin-bottom: 1em; } ";
     style.type = 'text/css';
 
     if (style.styleSheet) {
@@ -238,7 +242,9 @@ var App = {
 
     var _c = _vm._self._c || _h;
 
-    return _c('div', [_c('div', [_c('button', {
+    return _c('div', [_c('div', {
+      staticClass: "bms-btn-wrap"
+    }, [_c('button', {
       on: {
         "click": _vm.create
       }
@@ -252,6 +258,7 @@ var App = {
     }))]);
   },
   staticRenderFns: [],
+  _scopeId: 'data-v-38cab9c1',
   components: {
     Signature: Signature$1
   },

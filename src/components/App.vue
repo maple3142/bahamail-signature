@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div>
+		<div class="bms-btn-wrap">
 			<button @click="create">新增簽名檔</button>
 		</div>
 		<div>
@@ -28,3 +28,8 @@ export default {
 	}
 }
 </script>
+<style scoped>
+.bms-btn-wrap{
+	margin-bottom: 1em;
+}
+</style>
