@@ -12,7 +12,8 @@ module.exports = {
 		vue: 'Vue',
 		vuex: 'Vuex',
 		jquery: 'jQuery',
-		'vuejs-storage': 'vuejsStorage'
+		'vuejs-storage': 'vuejsStorage',
+		sortablejs: 'Sortable'
 	},
 	banner: `
 // ==UserScript==
@@ -23,10 +24,11 @@ module.exports = {
 // @author       maple3142
 // @match        https://mailbox.gamer.com.tw/send.php*
 // @match        https://mailbox.gamer.com.tw/reply.php*
-// @require      https://unpkg.com/vue/dist/vue.runtime.min.js
-// @require      https://unpkg.com/vuex/dist/vuex.min.js
-// @require      https://unpkg.com/vuejs-storage
+// @require      https://unpkg.com/vue@2.5.16/dist/vue.runtime.min.js
+// @require      https://unpkg.com/vuex@3.0.1/dist/vuex.min.js
+// @require      https://unpkg.com/vuejs-storage@2.1.1/dist/vuejs-storage.js
+// @require      https://unpkg.com/sortablejs@1.7.0/Sortable.min.js
 // @grant        none
-// ==/UserScript==	
+// ==/UserScript==
 `
 }

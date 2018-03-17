@@ -1,7 +1,7 @@
 <template>
 	<div class="fw BH-rbox">
-		<h5>{{signature.name}}</h5>
-		<textarea class="fw" rows="5" @keyup="edit(text)" v-model="text"></textarea>
+		<h5 class="sig-header">{{signature.name}}</h5>
+		<textarea class="fw" rows="5" v-model="text"></textarea>
 		<div>
 			<button @click="apply(signature.content)">插入簽名檔</button>
 			<button @click="rename">重新命名</button>
@@ -19,18 +19,20 @@ export default {
 			required: true
 		}
 	},
-	data() {
-		return {
-			text: this.signature.content
+	computed: {
+		text: {
+			get() {
+				return this.signature.content
+			},
+			set(content) {
+				this.$store.commit('edit', {
+					...this.signature,
+					content
+				})
+			}
 		}
 	},
 	methods: {
-		edit(content) {
-			this.$store.commit('edit', {
-				...this.signature,
-				content
-			})
-		},
 		apply(text) {
 			const $tx = $('textarea[name=content]')
 			const val = $tx.val()

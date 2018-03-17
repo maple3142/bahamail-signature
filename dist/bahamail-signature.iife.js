@@ -7,19 +7,21 @@
 // @author       maple3142
 // @match        https://mailbox.gamer.com.tw/send.php*
 // @match        https://mailbox.gamer.com.tw/reply.php*
-// @require      https://unpkg.com/vue
-// @require      https://unpkg.com/vuex
-// @require      https://unpkg.com/vuejs-storage
+// @require      https://unpkg.com/vue@2.5.16/dist/vue.runtime.min.js
+// @require      https://unpkg.com/vuex@3.0.1/dist/vuex.min.js
+// @require      https://unpkg.com/vuejs-storage@2.1.1/dist/vuejs-storage.js
+// @require      https://unpkg.com/sortablejs@1.7.0/Sortable.min.js
 // @grant        none
-// ==/UserScript==	
+// ==/UserScript==
 
-(function (Vue,$,Vuex,vjss) {
+(function (Vue,$,Vuex,vjss,Sortable) {
 'use strict';
 
 Vue = Vue && Vue.hasOwnProperty('default') ? Vue['default'] : Vue;
 $ = $ && $.hasOwnProperty('default') ? $['default'] : $;
-var Vuex__default = 'default' in Vuex ? Vuex['default'] : Vuex;
+Vuex = Vuex && Vuex.hasOwnProperty('default') ? Vuex['default'] : Vuex;
 vjss = vjss && vjss.hasOwnProperty('default') ? vjss['default'] : vjss;
+Sortable = Sortable && Sortable.hasOwnProperty('default') ? Sortable['default'] : Sortable;
 
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -61,7 +63,7 @@ function _objectSpread(target) {
   return target;
 }
 
-Vue.use(Vuex__default);
+Vue.use(Vuex);
 var Signature = function Signature(name) {
   _classCallCheck(this, Signature);
 
@@ -69,7 +71,7 @@ var Signature = function Signature(name) {
   this.content = '';
   this.id = Date.now().toString() + Math.random();
 };
-var store = new Vuex__default.Store({
+var store = new Vuex.Store({
   state: {
     signatures: []
   },
@@ -102,6 +104,9 @@ var store = new Vuex__default.Store({
       state.signatures = state.signatures.filter(function (s) {
         return s.id !== id;
       });
+    },
+    updateSignatures: function updateSignatures(state, sigs) {
+      state.signatures = sigs;
     }
   },
   plugins: [vjss({
@@ -137,7 +142,9 @@ var Signature$1 = {
 
     return _c('div', {
       staticClass: "fw BH-rbox"
-    }, [_c('h5', [_vm._v(_vm._s(_vm.signature.name))]), _vm._v(" "), _c('textarea', {
+    }, [_c('h5', {
+      staticClass: "sig-header"
+    }, [_vm._v(_vm._s(_vm.signature.name))]), _vm._v(" "), _c('textarea', {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -152,9 +159,6 @@ var Signature$1 = {
         "value": _vm.text
       },
       on: {
-        "keyup": function keyup($event) {
-          _vm.edit(_vm.text);
-        },
         "input": function input($event) {
           if ($event.target.composing) {
             return;
@@ -187,17 +191,19 @@ var Signature$1 = {
       required: true
     }
   },
-  data: function data() {
-    return {
-      text: this.signature.content
-    };
+  computed: {
+    text: {
+      get: function get() {
+        return this.signature.content;
+      },
+      set: function set(content) {
+        this.$store.commit('edit', _objectSpread({}, this.signature, {
+          content: content
+        }));
+      }
+    }
   },
   methods: {
-    edit: function edit(content) {
-      this.$store.commit('edit', _objectSpread({}, this.signature, {
-        content: content
-      }));
-    },
     apply: function apply(text) {
       var $tx = $('textarea[name=content]');
       var val = $tx.val();
@@ -221,7 +227,7 @@ var Signature$1 = {
   if (typeof document !== 'undefined') {
     var head = document.head || document.getElementsByTagName('head')[0],
         style = document.createElement('style'),
-        css = " .bms-btn-wrap[data-v-38cab9c1]{ margin-bottom: 1em; } ";
+        css = " .bms-btn-wrap[data-v-38cab9c1] { margin-bottom: 1em; } ";
     style.type = 'text/css';
 
     if (style.styleSheet) {
@@ -232,7 +238,8 @@ var Signature$1 = {
 
     head.appendChild(style);
   }
-})();
+})(); //vuedraggable doesn't export anything to window
+
 
 var App = {
   render: function render() {
@@ -248,21 +255,32 @@ var App = {
       on: {
         "click": _vm.create
       }
-    }, [_vm._v("新增簽名檔")])]), _vm._v(" "), _c('div', _vm._l(_vm.signatures, function (sig) {
+    }, [_vm._v("新增簽名檔")])]), _vm._v(" "), _c('div', [_c('div', {
+      ref: "list"
+    }, _vm._l(_vm.signatures, function (sig) {
       return _c('signature', {
         key: sig.id,
         attrs: {
           "signature": sig
         }
       });
-    }))]);
+    }))])]);
   },
   staticRenderFns: [],
   _scopeId: 'data-v-38cab9c1',
   components: {
     Signature: Signature$1
   },
-  computed: Vuex.mapState(['signatures']),
+  computed: {
+    signatures: {
+      get: function get() {
+        return this.$store.state.signatures;
+      },
+      set: function set(value) {
+        this.$store.commit('updateSignatures', value);
+      }
+    }
+  },
   methods: {
     create: function create() {
       var name = prompt('新簽名檔名稱?');
@@ -271,6 +289,22 @@ var App = {
         name: name
       });
     }
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    Sortable.create(this.$refs.list, {
+      handle: '.sig-header',
+      onUpdate: function onUpdate(e) {
+        var s = _this.signatures;
+        var oldIndex = e.oldIndex,
+            newIndex = e.newIndex;
+        var _ref = [s[newIndex], s[oldIndex]];
+        s[oldIndex] = _ref[0];
+        s[newIndex] = _ref[1];
+        _this.signatures = s;
+      }
+    });
   }
 };
 
@@ -288,4 +322,4 @@ window.__bahamail_signature = {
   store: store
 };
 
-}(Vue,jQuery,Vuex,vuejsStorage));
+}(Vue,jQuery,Vuex,vuejsStorage,Sortable));

@@ -36,6 +36,9 @@ export default new Vuex.Store({
 		},
 		del(state, { id }) {
 			state.signatures = state.signatures.filter(s => s.id !== id)
+		},
+		updateSignatures(state, sigs) {
+			state.signatures = sigs
 		}
 	},
 	plugins: [

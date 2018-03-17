@@ -4,19 +4,31 @@
 			<button @click="create">新增簽名檔</button>
 		</div>
 		<div>
-			<signature v-for="sig in signatures" :key="sig.id" :signature="sig"/>
+			<div ref="list">
+				<signature v-for="sig in signatures" :key="sig.id" :signature="sig" />
+			</div>
 		</div>
 	</div>
 </template>
 <script>
-import { mapState } from 'vuex'
+//vuedraggable doesn't export anything to window
+import Sortable from 'sortablejs'
 import Signature from './signature.vue'
 
 export default {
 	components: {
 		Signature
 	},
-	computed: mapState(['signatures']),
+	computed: {
+		signatures: {
+			get() {
+				return this.$store.state.signatures
+			},
+			set(value) {
+				this.$store.commit('updateSignatures', value)
+			}
+		}
+	},
 	methods: {
 		create() {
 			const name = prompt('新簽名檔名稱?')
@@ -25,11 +37,22 @@ export default {
 				name
 			})
 		}
+	},
+	mounted() {
+		Sortable.create(this.$refs.list, {
+			handle: '.sig-header',
+			onUpdate: e => {
+				const s = this.signatures
+				const { oldIndex, newIndex } = e
+				;[s[oldIndex], s[newIndex]] = [s[newIndex], s[oldIndex]]
+				this.signatures = s
+			}
+		})
 	}
 }
 </script>
 <style scoped>
-.bms-btn-wrap{
+.bms-btn-wrap {
 	margin-bottom: 1em;
 }
 </style>
