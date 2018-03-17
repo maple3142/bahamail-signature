@@ -5,8 +5,7 @@
 // @version      0.4
 // @description  幫巴哈姆特站內信的站內信加上簽名檔功能
 // @author       maple3142
-// @match        https://mailbox.gamer.com.tw/send.php*
-// @match        https://mailbox.gamer.com.tw/reply.php*
+// @match        https://mailbox.gamer.com.tw/*
 // @require      https://unpkg.com/vue@2.5.16/dist/vue.runtime.min.js
 // @require      https://unpkg.com/vuex@3.0.1/dist/vuex.min.js
 // @require      https://unpkg.com/vuejs-storage@2.1.1/dist/vuejs-storage.js
@@ -115,6 +114,8 @@ var store = new Vuex.Store({
   })]
 });
 
+var isMailingPage = $('textarea[name=content]').length > 0;
+
 (function () {
   if (typeof document !== 'undefined') {
     var head = document.head || document.getElementsByTagName('head')[0],
@@ -167,13 +168,13 @@ var Signature$1 = {
           _vm.text = $event.target.value;
         }
       }
-    }), _vm._v(" "), _c('div', [_c('button', {
+    }), _vm._v(" "), _c('div', [_vm.isMailingPage ? _c('button', {
       on: {
         "click": function click($event) {
           _vm.apply(_vm.signature.content);
         }
       }
-    }, [_vm._v("插入簽名檔")]), _vm._v(" "), _c('button', {
+    }, [_vm._v("插入簽名檔")]) : _vm._e(), _vm._v(" "), _c('button', {
       on: {
         "click": _vm.rename
       }
@@ -201,6 +202,9 @@ var Signature$1 = {
           content: content
         }));
       }
+    },
+    isMailingPage: function isMailingPage$$1() {
+      return isMailingPage;
     }
   },
   methods: {

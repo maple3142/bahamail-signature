@@ -22,8 +22,7 @@ module.exports = {
 // @version      ${version}
 // @description  幫巴哈姆特站內信的站內信加上簽名檔功能
 // @author       maple3142
-// @match        https://mailbox.gamer.com.tw/send.php*
-// @match        https://mailbox.gamer.com.tw/reply.php*
+// @match        https://mailbox.gamer.com.tw/*
 // @require      https://unpkg.com/vue@2.5.16/dist/vue.runtime.min.js
 // @require      https://unpkg.com/vuex@3.0.1/dist/vuex.min.js
 // @require      https://unpkg.com/vuejs-storage@2.1.1/dist/vuejs-storage.js

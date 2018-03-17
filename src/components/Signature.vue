@@ -3,7 +3,7 @@
 		<h5 class="sig-header">{{signature.name}}</h5>
 		<textarea class="fw" rows="5" v-model="text"></textarea>
 		<div>
-			<button @click="apply(signature.content)">插入簽名檔</button>
+			<button v-if="isMailingPage" @click="apply(signature.content)">插入簽名檔</button>
 			<button @click="rename">重新命名</button>
 			<button @click="del">刪除</button>
 		</div>
@@ -11,6 +11,7 @@
 </template>
 <script>
 import $ from 'jquery'
+import {isMailingPage} from '../utils'
 
 export default {
 	props: {
@@ -30,7 +31,8 @@ export default {
 					content
 				})
 			}
-		}
+		},
+		isMailingPage: ()=>isMailingPage
 	},
 	methods: {
 		apply(text) {
