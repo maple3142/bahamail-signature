@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         巴哈姆特站內信簽名檔
 // @namespace    https://blog.maple3142.net/
-// @version      0.2
+// @version      0.3
 // @description  幫巴哈姆特站內信的站內信加上簽名檔功能
 // @author       maple3142
 // @match        https://mailbox.gamer.com.tw/send.php*
