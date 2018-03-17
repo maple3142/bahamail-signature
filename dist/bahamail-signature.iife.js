@@ -236,7 +236,6 @@ var App = {
   }
 };
 
-window.store = store;
 var app = new Vue({
   render: function render(h) {
     return h(App);
@@ -246,5 +245,9 @@ var app = new Vue({
 var div = document.createElement('div');
 $('#BH-slave').append(div);
 app.$mount(div);
+window.__bahamail_signature = {
+  app: app,
+  store: store
+};
 
 }(Vue,jQuery,Vuex,vuejsStorage));
