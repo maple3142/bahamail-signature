@@ -1,7 +1,7 @@
 <template>
-	<div style="width: 100%;">
+	<div class="fw">
 		<h6>{{signature.name}} :</h6>
-		<textarea rows="5" @keyup="edit(text)" v-model="text" style="width: 100%;"></textarea>
+		<textarea class="fw" rows="5" @keyup="edit(text)" v-model="text"></textarea>
 		<div>
 			<button @click="apply">插入簽名檔</button>
 			<button @click="rename">重新命名</button>
@@ -49,3 +49,8 @@ export default {
 	}
 }
 </script>
+<style scoped>
+.fw{
+	width: 100%;
+}
+</style>

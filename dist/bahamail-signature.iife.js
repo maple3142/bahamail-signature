@@ -110,6 +110,23 @@ var store = new Vuex__default.Store({
   })]
 });
 
+(function () {
+  if (typeof document !== 'undefined') {
+    var head = document.head || document.getElementsByTagName('head')[0],
+        style = document.createElement('style'),
+        css = " .fw[data-v-125f8210]{ width: 100%; } ";
+    style.type = 'text/css';
+
+    if (style.styleSheet) {
+      style.styleSheet.cssText = css;
+    } else {
+      style.appendChild(document.createTextNode(css));
+    }
+
+    head.appendChild(style);
+  }
+})();
+
 var Signature$1 = {
   render: function render() {
     var _vm = this;
@@ -119,9 +136,7 @@ var Signature$1 = {
     var _c = _vm._self._c || _h;
 
     return _c('div', {
-      staticStyle: {
-        "width": "100%"
-      }
+      staticClass: "fw"
     }, [_c('h6', [_vm._v(_vm._s(_vm.signature.name) + " :")]), _vm._v(" "), _c('textarea', {
       directives: [{
         name: "model",
@@ -129,9 +144,7 @@ var Signature$1 = {
         value: _vm.text,
         expression: "text"
       }],
-      staticStyle: {
-        "width": "100%"
-      },
+      staticClass: "fw",
       attrs: {
         "rows": "5"
       },
@@ -167,6 +180,7 @@ var Signature$1 = {
     }, [_vm._v("刪除")])])]);
   },
   staticRenderFns: [],
+  _scopeId: 'data-v-125f8210',
   props: {
     signature: {
       type: Object,
@@ -198,6 +212,23 @@ var Signature$1 = {
     }
   }, Vuex.mapMutations(['del']))
 };
+
+(function () {
+  if (typeof document !== 'undefined') {
+    var head = document.head || document.getElementsByTagName('head')[0],
+        style = document.createElement('style'),
+        css = "";
+    style.type = 'text/css';
+
+    if (style.styleSheet) {
+      style.styleSheet.cssText = css;
+    } else {
+      style.appendChild(document.createTextNode(css));
+    }
+
+    head.appendChild(style);
+  }
+})();
 
 var App = {
   render: function render() {
