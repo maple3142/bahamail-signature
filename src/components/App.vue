@@ -40,7 +40,7 @@ export default {
 	},
 	mounted() {
 		Sortable.create(this.$refs.list, {
-			handle: '.sig-header',
+			handle: '.sig-drag',
 			onUpdate: e => {
 				const s = this.signatures
 				const { oldIndex, newIndex } = e

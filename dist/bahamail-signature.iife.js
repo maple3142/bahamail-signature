@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         巴哈姆特站內信簽名檔
 // @namespace    https://blog.maple3142.net/
-// @version      0.5
+// @version      0.5.1
 // @description  幫巴哈姆特站內信的站內信加上簽名檔功能
 // @author       maple3142
 // @match        https://mailbox.gamer.com.tw/*
@@ -143,9 +143,9 @@ var Signature$1 = {
 
     return _c('div', {
       staticClass: "fw BH-rbox"
-    }, [_c('h5', {
-      staticClass: "sig-header"
-    }, [_vm._v(_vm._s(_vm.signature.name))]), _vm._v(" "), _c('textarea', {
+    }, [_c('h5', [_c('i', {
+      staticClass: "sig-drag fa fa-bars"
+    }), _vm._v(" " + _vm._s(_vm.signature.name) + " ")]), _vm._v(" "), _c('textarea', {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -298,7 +298,7 @@ var App = {
     var _this = this;
 
     Sortable.create(this.$refs.list, {
-      handle: '.sig-header',
+      handle: '.sig-drag',
       onUpdate: function onUpdate(e) {
         var s = _this.signatures;
         var oldIndex = e.oldIndex,

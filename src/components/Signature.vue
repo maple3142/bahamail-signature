@@ -1,6 +1,9 @@
 <template>
 	<div class="fw BH-rbox">
-		<h5 class="sig-header">{{signature.name}}</h5>
+		<h5>
+			<i class="sig-drag fa fa-bars"></i>
+			{{signature.name}}
+		</h5>
 		<textarea class="fw" rows="5" v-model="text"></textarea>
 		<div>
 			<button v-if="isMailingPage" @click="apply(signature.content)">插入簽名檔</button>
